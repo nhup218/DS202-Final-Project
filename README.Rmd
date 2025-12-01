@@ -10,6 +10,7 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(readr)
 library(scales)
+library(knitr)
 ```
 
 ## Introduction
@@ -25,13 +26,10 @@ This project uses the Ames Housing Dataset from Kaggle, which contains detailed 
 
 ames <- read_csv("train.csv")
 
-glimpse(ames)
-
 ames_clean <- ames %>%
-  select(SalePrice, GrLivArea, OverallQual, YearBuilt, Neighborhood, GarageCars) %>%
-  drop_na()
-
-ames_clean$Neighborhood <- as.factor(ames_clean$Neighborhood)
+select(SalePrice, GrLivArea, OverallQual, YearBuilt, Neighborhood, GarageCars) %>%
+drop_na() %>%
+mutate(Neighborhood = factor(Neighborhood))
 
 glimpse(ames_clean)
 
@@ -61,6 +59,53 @@ Converting Neighborhood to a factor for categorical analysis.
 
 Summary statistics:
 
+```{r}
+summary_stats <- ames_clean %>%
+  summarise(
+    SalePrice_min = min(SalePrice),
+    SalePrice_q1 = quantile(SalePrice, 0.25),
+    SalePrice_median = median(SalePrice),
+    SalePrice_mean = mean(SalePrice),
+    SalePrice_q3 = quantile(SalePrice, 0.75),
+    SalePrice_max = max(SalePrice),
+
+    GrLivArea_min = min(GrLivArea),
+    GrLivArea_q1 = quantile(GrLivArea, 0.25),
+    GrLivArea_median = median(GrLivArea),
+    GrLivArea_mean = mean(GrLivArea),
+    GrLivArea_q3 = quantile(GrLivArea, 0.75),
+    GrLivArea_max = max(GrLivArea),
+
+    OverallQual_min = min(OverallQual),
+    OverallQual_q1 = quantile(OverallQual, 0.25),
+    OverallQual_median = median(OverallQual),
+    OverallQual_mean = mean(OverallQual),
+    OverallQual_q3 = quantile(OverallQual, 0.75),
+    OverallQual_max = max(OverallQual),
+
+    YearBuilt_min = min(YearBuilt),
+    YearBuilt_q1 = quantile(YearBuilt, 0.25),
+    YearBuilt_median = median(YearBuilt),
+    YearBuilt_mean = mean(YearBuilt),
+    YearBuilt_q3 = quantile(YearBuilt, 0.75),
+    YearBuilt_max = max(YearBuilt),
+
+    GarageCars_min = min(GarageCars),
+    GarageCars_q1 = quantile(GarageCars, 0.25),
+    GarageCars_median = median(GarageCars),
+    GarageCars_mean = mean(GarageCars),
+    GarageCars_q3 = quantile(GarageCars, 0.75),
+    GarageCars_max = max(GarageCars)
+  )
+
+summary_stats
+
+summary_table <- summary_stats %>%
+  pivot_longer(everything(), names_to = "Statistic", values_to = "Value")
+
+```
+
+
 | Variable          | Min    | 1st Qu. | Median  | Mean    | 3rd Qu. | Max     |
 | ----------------- | ------ | ------- | ------- | ------- | ------- | ------- |
 | SalePrice ($)     | 34,900 | 129,975 | 163,000 | 180,921 | 214,000 | 755,000 |
@@ -71,24 +116,28 @@ Summary statistics:
 
 ## Exploration & Findings
 
-Question 1: Does the size of a house (GrLivArea) strongly affect its sale price?
+#### Question 1: Does the size of a house (GrLivArea) strongly affect its sale price?
 
 Scatterplots with regression lines show a clear positive correlation: larger homes generally sell for higher prices. However, a few outliers exist (very large homes with lower prices), highlighting the importance of considering additional factors like location or quality.
 
 ```{r}
-ggplot(ames_clean, aes(x = GrLivArea, y = SalePrice)) +
+ggplot(ames_clean, aes(GrLivArea, SalePrice)) +
   geom_point(alpha = 0.5) +
   geom_smooth(method = "lm", color = "red") +
-  labs(title = "Relationship Between Living Area and Sale Price",
-       x = "Living Area (sq ft)",
-       y = "Sale Price ($)")
+  scale_y_continuous(labels = dollar) +
+  labs(
+    title = "Relationship Between Living Area and Sale Price",
+    x = "Living Area (sq ft)",
+    y = "Sale Price ($)"
+  )
+
 ```
 
 Observation: GrLivArea has a strong positive linear relationship with SalePrice, though outliers suggest caution in using size alone for predictions.
 
-Question 2: Do certain neighborhoods have higher average sale prices than others?
+#### Question 2: Do certain neighborhoods have higher average sale prices than others?
 
-Aggregating by neighborhood shows clear differences: NoRidge, CollgCr, and StoneBr tend to have the highest average sale prices, whereas older or less central neighborhoods like NAmes and OldTown tend to have lower average prices.
+Aggregating by neighborhood shows clear differences: NoRidge, NridgtHt, and StoneBr tend to have the highest average sale prices, whereas older or less central neighborhoods like NAmes and OldTown tend to have lower average prices.
 
 ```{r}
 ames_clean %>%
@@ -97,20 +146,25 @@ ames_clean %>%
   ggplot(aes(x = reorder(Neighborhood, AveragePrice), y = AveragePrice)) +
   geom_col(fill = "steelblue") +
   coord_flip() +
-  labs(title = "Average Sale Price by Neighborhood",
-       x = "Neighborhood",
-       y = "Average Sale Price ($)")
+  scale_y_continuous(labels = dollar) +
+  labs(
+    title = "Average Sale Price by Neighborhood",
+    x = "Neighborhood",
+    y = "Average Sale Price ($)"
+  )
+
 ```
 
 Observation: Location is a strong predictor of price. Even homes of similar size and quality can vary greatly in price depending on the neighborhood.
 
-Question 3: Does overall quality impact price?
+#### Question 3: Does overall quality impact price?
 
 Boxplots of SalePrice vs OverallQual indicate a near-linear increase in median price as quality improves. Houses rated 9–10 command significantly higher prices than lower-rated homes.
 
 ```{r}
 ggplot(ames_clean, aes(x = as.factor(OverallQual), y = SalePrice)) +
   geom_boxplot(fill = "lightgreen") +
+  scale_y_continuous(labels = dollar) +
   labs(
     title = "Sale Price by Overall Quality",
     x = "Overall Quality (1 = Poor, 10 = Excellent)",
@@ -121,16 +175,20 @@ ggplot(ames_clean, aes(x = as.factor(OverallQual), y = SalePrice)) +
 Insight: Quality is a key factor and interacts with both size and neighborhood for predictive modeling.
 
 
-Question 4: Are garages influential in pricing?
+#### Question 4: Are garages influential in pricing?
 
 Homes with more garage capacity tend to have higher prices, though this effect is smaller than living area or quality. Some homes without garages still sell for high prices if other features (size, location, quality) are strong.
 
 ```{r}
 ggplot(ames_clean, aes(x = factor(GarageCars), y = SalePrice)) +
-  geom_boxplot(fill = "lightgreen") +
-  labs(title = "Sale Price by Garage Size",
-       x = "Garage Capacity (Cars)",
-       y = "Sale Price ($)")
+  geom_boxplot(fill = "red") +
+  scale_y_continuous(labels = dollar) +
+  labs(
+    title = "Sale Price by Garage Size",
+    x = "Garage Capacity (Cars)",
+    y = "Sale Price ($)"
+  )
+
 ```
 
 Observation: Garage size is moderately correlated with price, acting as a secondary factor.

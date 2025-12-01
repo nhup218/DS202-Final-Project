@@ -35,99 +35,10 @@ ames <- read_csv("train.csv")
     ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 
 ``` r
-glimpse(ames)
-```
-
-    ## Rows: 1,460
-    ## Columns: 81
-    ## $ Id            <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 1…
-    ## $ MSSubClass    <dbl> 60, 20, 60, 70, 60, 50, 20, 60, 50, 190, 20, 60, 20, 20,…
-    ## $ MSZoning      <chr> "RL", "RL", "RL", "RL", "RL", "RL", "RL", "RL", "RM", "R…
-    ## $ LotFrontage   <dbl> 65, 80, 68, 60, 84, 85, 75, NA, 51, 50, 70, 85, NA, 91, …
-    ## $ LotArea       <dbl> 8450, 9600, 11250, 9550, 14260, 14115, 10084, 10382, 612…
-    ## $ Street        <chr> "Pave", "Pave", "Pave", "Pave", "Pave", "Pave", "Pave", …
-    ## $ Alley         <chr> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
-    ## $ LotShape      <chr> "Reg", "Reg", "IR1", "IR1", "IR1", "IR1", "Reg", "IR1", …
-    ## $ LandContour   <chr> "Lvl", "Lvl", "Lvl", "Lvl", "Lvl", "Lvl", "Lvl", "Lvl", …
-    ## $ Utilities     <chr> "AllPub", "AllPub", "AllPub", "AllPub", "AllPub", "AllPu…
-    ## $ LotConfig     <chr> "Inside", "FR2", "Inside", "Corner", "FR2", "Inside", "I…
-    ## $ LandSlope     <chr> "Gtl", "Gtl", "Gtl", "Gtl", "Gtl", "Gtl", "Gtl", "Gtl", …
-    ## $ Neighborhood  <chr> "CollgCr", "Veenker", "CollgCr", "Crawfor", "NoRidge", "…
-    ## $ Condition1    <chr> "Norm", "Feedr", "Norm", "Norm", "Norm", "Norm", "Norm",…
-    ## $ Condition2    <chr> "Norm", "Norm", "Norm", "Norm", "Norm", "Norm", "Norm", …
-    ## $ BldgType      <chr> "1Fam", "1Fam", "1Fam", "1Fam", "1Fam", "1Fam", "1Fam", …
-    ## $ HouseStyle    <chr> "2Story", "1Story", "2Story", "2Story", "2Story", "1.5Fi…
-    ## $ OverallQual   <dbl> 7, 6, 7, 7, 8, 5, 8, 7, 7, 5, 5, 9, 5, 7, 6, 7, 6, 4, 5,…
-    ## $ OverallCond   <dbl> 5, 8, 5, 5, 5, 5, 5, 6, 5, 6, 5, 5, 6, 5, 5, 8, 7, 5, 5,…
-    ## $ YearBuilt     <dbl> 2003, 1976, 2001, 1915, 2000, 1993, 2004, 1973, 1931, 19…
-    ## $ YearRemodAdd  <dbl> 2003, 1976, 2002, 1970, 2000, 1995, 2005, 1973, 1950, 19…
-    ## $ RoofStyle     <chr> "Gable", "Gable", "Gable", "Gable", "Gable", "Gable", "G…
-    ## $ RoofMatl      <chr> "CompShg", "CompShg", "CompShg", "CompShg", "CompShg", "…
-    ## $ Exterior1st   <chr> "VinylSd", "MetalSd", "VinylSd", "Wd Sdng", "VinylSd", "…
-    ## $ Exterior2nd   <chr> "VinylSd", "MetalSd", "VinylSd", "Wd Shng", "VinylSd", "…
-    ## $ MasVnrType    <chr> "BrkFace", "None", "BrkFace", "None", "BrkFace", "None",…
-    ## $ MasVnrArea    <dbl> 196, 0, 162, 0, 350, 0, 186, 240, 0, 0, 0, 286, 0, 306, …
-    ## $ ExterQual     <chr> "Gd", "TA", "Gd", "TA", "Gd", "TA", "Gd", "TA", "TA", "T…
-    ## $ ExterCond     <chr> "TA", "TA", "TA", "TA", "TA", "TA", "TA", "TA", "TA", "T…
-    ## $ Foundation    <chr> "PConc", "CBlock", "PConc", "BrkTil", "PConc", "Wood", "…
-    ## $ BsmtQual      <chr> "Gd", "Gd", "Gd", "TA", "Gd", "Gd", "Ex", "Gd", "TA", "T…
-    ## $ BsmtCond      <chr> "TA", "TA", "TA", "Gd", "TA", "TA", "TA", "TA", "TA", "T…
-    ## $ BsmtExposure  <chr> "No", "Gd", "Mn", "No", "Av", "No", "Av", "Mn", "No", "N…
-    ## $ BsmtFinType1  <chr> "GLQ", "ALQ", "GLQ", "ALQ", "GLQ", "GLQ", "GLQ", "ALQ", …
-    ## $ BsmtFinSF1    <dbl> 706, 978, 486, 216, 655, 732, 1369, 859, 0, 851, 906, 99…
-    ## $ BsmtFinType2  <chr> "Unf", "Unf", "Unf", "Unf", "Unf", "Unf", "Unf", "BLQ", …
-    ## $ BsmtFinSF2    <dbl> 0, 0, 0, 0, 0, 0, 0, 32, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
-    ## $ BsmtUnfSF     <dbl> 150, 284, 434, 540, 490, 64, 317, 216, 952, 140, 134, 17…
-    ## $ TotalBsmtSF   <dbl> 856, 1262, 920, 756, 1145, 796, 1686, 1107, 952, 991, 10…
-    ## $ Heating       <chr> "GasA", "GasA", "GasA", "GasA", "GasA", "GasA", "GasA", …
-    ## $ HeatingQC     <chr> "Ex", "Ex", "Ex", "Gd", "Ex", "Ex", "Ex", "Ex", "Gd", "E…
-    ## $ CentralAir    <chr> "Y", "Y", "Y", "Y", "Y", "Y", "Y", "Y", "Y", "Y", "Y", "…
-    ## $ Electrical    <chr> "SBrkr", "SBrkr", "SBrkr", "SBrkr", "SBrkr", "SBrkr", "S…
-    ## $ `1stFlrSF`    <dbl> 856, 1262, 920, 961, 1145, 796, 1694, 1107, 1022, 1077, …
-    ## $ `2ndFlrSF`    <dbl> 854, 0, 866, 756, 1053, 566, 0, 983, 752, 0, 0, 1142, 0,…
-    ## $ LowQualFinSF  <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,…
-    ## $ GrLivArea     <dbl> 1710, 1262, 1786, 1717, 2198, 1362, 1694, 2090, 1774, 10…
-    ## $ BsmtFullBath  <dbl> 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1,…
-    ## $ BsmtHalfBath  <dbl> 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,…
-    ## $ FullBath      <dbl> 2, 2, 2, 1, 2, 1, 2, 2, 2, 1, 1, 3, 1, 2, 1, 1, 1, 2, 1,…
-    ## $ HalfBath      <dbl> 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1,…
-    ## $ BedroomAbvGr  <dbl> 3, 3, 3, 3, 4, 1, 3, 3, 2, 2, 3, 4, 2, 3, 2, 2, 2, 2, 3,…
-    ## $ KitchenAbvGr  <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 1, 1, 1, 1, 1, 1, 1, 2, 1,…
-    ## $ KitchenQual   <chr> "Gd", "TA", "Gd", "Gd", "Gd", "TA", "Gd", "TA", "TA", "T…
-    ## $ TotRmsAbvGrd  <dbl> 8, 6, 6, 7, 9, 5, 7, 7, 8, 5, 5, 11, 4, 7, 5, 5, 5, 6, 6…
-    ## $ Functional    <chr> "Typ", "Typ", "Typ", "Typ", "Typ", "Typ", "Typ", "Typ", …
-    ## $ Fireplaces    <dbl> 0, 1, 1, 1, 1, 0, 1, 2, 2, 2, 0, 2, 0, 1, 1, 0, 1, 0, 0,…
-    ## $ FireplaceQu   <chr> NA, "TA", "TA", "Gd", "TA", NA, "Gd", "TA", "TA", "TA", …
-    ## $ GarageType    <chr> "Attchd", "Attchd", "Attchd", "Detchd", "Attchd", "Attch…
-    ## $ GarageYrBlt   <dbl> 2003, 1976, 2001, 1998, 2000, 1993, 2004, 1973, 1931, 19…
-    ## $ GarageFinish  <chr> "RFn", "RFn", "RFn", "Unf", "RFn", "Unf", "RFn", "RFn", …
-    ## $ GarageCars    <dbl> 2, 2, 2, 3, 3, 2, 2, 2, 2, 1, 1, 3, 1, 3, 1, 2, 2, 2, 2,…
-    ## $ GarageArea    <dbl> 548, 460, 608, 642, 836, 480, 636, 484, 468, 205, 384, 7…
-    ## $ GarageQual    <chr> "TA", "TA", "TA", "TA", "TA", "TA", "TA", "TA", "Fa", "G…
-    ## $ GarageCond    <chr> "TA", "TA", "TA", "TA", "TA", "TA", "TA", "TA", "TA", "T…
-    ## $ PavedDrive    <chr> "Y", "Y", "Y", "Y", "Y", "Y", "Y", "Y", "Y", "Y", "Y", "…
-    ## $ WoodDeckSF    <dbl> 0, 298, 0, 0, 192, 40, 255, 235, 90, 0, 0, 147, 140, 160…
-    ## $ OpenPorchSF   <dbl> 61, 0, 42, 35, 84, 30, 57, 204, 0, 4, 0, 21, 0, 33, 213,…
-    ## $ EnclosedPorch <dbl> 0, 0, 0, 272, 0, 0, 0, 228, 205, 0, 0, 0, 0, 0, 176, 0, …
-    ## $ `3SsnPorch`   <dbl> 0, 0, 0, 0, 0, 320, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
-    ## $ ScreenPorch   <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 176, 0, 0, 0, 0, 0, …
-    ## $ PoolArea      <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,…
-    ## $ PoolQC        <chr> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
-    ## $ Fence         <chr> NA, NA, NA, NA, NA, "MnPrv", NA, NA, NA, NA, NA, NA, NA,…
-    ## $ MiscFeature   <chr> NA, NA, NA, NA, NA, "Shed", NA, "Shed", NA, NA, NA, NA, …
-    ## $ MiscVal       <dbl> 0, 0, 0, 0, 0, 700, 0, 350, 0, 0, 0, 0, 0, 0, 0, 0, 700,…
-    ## $ MoSold        <dbl> 2, 5, 9, 2, 12, 10, 8, 11, 4, 1, 2, 7, 9, 8, 5, 7, 3, 10…
-    ## $ YrSold        <dbl> 2008, 2007, 2008, 2006, 2008, 2009, 2007, 2009, 2008, 20…
-    ## $ SaleType      <chr> "WD", "WD", "WD", "WD", "WD", "WD", "WD", "WD", "WD", "W…
-    ## $ SaleCondition <chr> "Normal", "Normal", "Normal", "Abnorml", "Normal", "Norm…
-    ## $ SalePrice     <dbl> 208500, 181500, 223500, 140000, 250000, 143000, 307000, …
-
-``` r
 ames_clean <- ames %>%
-  select(SalePrice, GrLivArea, OverallQual, YearBuilt, Neighborhood, GarageCars) %>%
-  drop_na()
-
-ames_clean$Neighborhood <- as.factor(ames_clean$Neighborhood)
+select(SalePrice, GrLivArea, OverallQual, YearBuilt, Neighborhood, GarageCars) %>%
+drop_na() %>%
+mutate(Neighborhood = factor(Neighborhood))
 
 glimpse(ames_clean)
 ```
@@ -169,6 +80,65 @@ Converting Neighborhood to a factor for categorical analysis.
 
 Summary statistics:
 
+``` r
+summary_stats <- ames_clean %>%
+  summarise(
+    SalePrice_min = min(SalePrice),
+    SalePrice_q1 = quantile(SalePrice, 0.25),
+    SalePrice_median = median(SalePrice),
+    SalePrice_mean = mean(SalePrice),
+    SalePrice_q3 = quantile(SalePrice, 0.75),
+    SalePrice_max = max(SalePrice),
+
+    GrLivArea_min = min(GrLivArea),
+    GrLivArea_q1 = quantile(GrLivArea, 0.25),
+    GrLivArea_median = median(GrLivArea),
+    GrLivArea_mean = mean(GrLivArea),
+    GrLivArea_q3 = quantile(GrLivArea, 0.75),
+    GrLivArea_max = max(GrLivArea),
+
+    OverallQual_min = min(OverallQual),
+    OverallQual_q1 = quantile(OverallQual, 0.25),
+    OverallQual_median = median(OverallQual),
+    OverallQual_mean = mean(OverallQual),
+    OverallQual_q3 = quantile(OverallQual, 0.75),
+    OverallQual_max = max(OverallQual),
+
+    YearBuilt_min = min(YearBuilt),
+    YearBuilt_q1 = quantile(YearBuilt, 0.25),
+    YearBuilt_median = median(YearBuilt),
+    YearBuilt_mean = mean(YearBuilt),
+    YearBuilt_q3 = quantile(YearBuilt, 0.75),
+    YearBuilt_max = max(YearBuilt),
+
+    GarageCars_min = min(GarageCars),
+    GarageCars_q1 = quantile(GarageCars, 0.25),
+    GarageCars_median = median(GarageCars),
+    GarageCars_mean = mean(GarageCars),
+    GarageCars_q3 = quantile(GarageCars, 0.75),
+    GarageCars_max = max(GarageCars)
+  )
+
+summary_stats
+```
+
+    ## # A tibble: 1 × 30
+    ##   SalePrice_min SalePrice_q1 SalePrice_median SalePrice_mean SalePrice_q3
+    ##           <dbl>        <dbl>            <dbl>          <dbl>        <dbl>
+    ## 1         34900       129975           163000        180921.       214000
+    ## # ℹ 25 more variables: SalePrice_max <dbl>, GrLivArea_min <dbl>,
+    ## #   GrLivArea_q1 <dbl>, GrLivArea_median <dbl>, GrLivArea_mean <dbl>,
+    ## #   GrLivArea_q3 <dbl>, GrLivArea_max <dbl>, OverallQual_min <dbl>,
+    ## #   OverallQual_q1 <dbl>, OverallQual_median <dbl>, OverallQual_mean <dbl>,
+    ## #   OverallQual_q3 <dbl>, OverallQual_max <dbl>, YearBuilt_min <dbl>,
+    ## #   YearBuilt_q1 <dbl>, YearBuilt_median <dbl>, YearBuilt_mean <dbl>,
+    ## #   YearBuilt_q3 <dbl>, YearBuilt_max <dbl>, GarageCars_min <dbl>, …
+
+``` r
+summary_table <- summary_stats %>%
+  pivot_longer(everything(), names_to = "Statistic", values_to = "Value")
+```
+
 | Variable          | Min    | 1st Qu. | Median  | Mean    | 3rd Qu. | Max     |
 |-------------------|--------|---------|---------|---------|---------|---------|
 | SalePrice (\$)    | 34,900 | 129,975 | 163,000 | 180,921 | 214,000 | 755,000 |
@@ -179,8 +149,7 @@ Summary statistics:
 
 ## Exploration & Findings
 
-Question 1: Does the size of a house (GrLivArea) strongly affect its
-sale price?
+#### Question 1: Does the size of a house (GrLivArea) strongly affect its sale price?
 
 Scatterplots with regression lines show a clear positive correlation:
 larger homes generally sell for higher prices. However, a few outliers
@@ -188,26 +157,28 @@ exist (very large homes with lower prices), highlighting the importance
 of considering additional factors like location or quality.
 
 ``` r
-ggplot(ames_clean, aes(x = GrLivArea, y = SalePrice)) +
+ggplot(ames_clean, aes(GrLivArea, SalePrice)) +
   geom_point(alpha = 0.5) +
   geom_smooth(method = "lm", color = "red") +
-  labs(title = "Relationship Between Living Area and Sale Price",
-       x = "Living Area (sq ft)",
-       y = "Sale Price ($)")
+  scale_y_continuous(labels = dollar) +
+  labs(
+    title = "Relationship Between Living Area and Sale Price",
+    x = "Living Area (sq ft)",
+    y = "Sale Price ($)"
+  )
 ```
 
     ## `geom_smooth()` using formula = 'y ~ x'
 
-![](README_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
 
 Observation: GrLivArea has a strong positive linear relationship with
 SalePrice, though outliers suggest caution in using size alone for
 predictions.
 
-Question 2: Do certain neighborhoods have higher average sale prices
-than others?
+#### Question 2: Do certain neighborhoods have higher average sale prices than others?
 
-Aggregating by neighborhood shows clear differences: NoRidge, CollgCr,
+Aggregating by neighborhood shows clear differences: NoRidge, NridgtHt,
 and StoneBr tend to have the highest average sale prices, whereas older
 or less central neighborhoods like NAmes and OldTown tend to have lower
 average prices.
@@ -219,18 +190,21 @@ ames_clean %>%
   ggplot(aes(x = reorder(Neighborhood, AveragePrice), y = AveragePrice)) +
   geom_col(fill = "steelblue") +
   coord_flip() +
-  labs(title = "Average Sale Price by Neighborhood",
-       x = "Neighborhood",
-       y = "Average Sale Price ($)")
+  scale_y_continuous(labels = dollar) +
+  labs(
+    title = "Average Sale Price by Neighborhood",
+    x = "Neighborhood",
+    y = "Average Sale Price ($)"
+  )
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
 
 Observation: Location is a strong predictor of price. Even homes of
 similar size and quality can vary greatly in price depending on the
 neighborhood.
 
-Question 3: Does overall quality impact price?
+#### Question 3: Does overall quality impact price?
 
 Boxplots of SalePrice vs OverallQual indicate a near-linear increase in
 median price as quality improves. Houses rated 9–10 command
@@ -239,6 +213,7 @@ significantly higher prices than lower-rated homes.
 ``` r
 ggplot(ames_clean, aes(x = as.factor(OverallQual), y = SalePrice)) +
   geom_boxplot(fill = "lightgreen") +
+  scale_y_continuous(labels = dollar) +
   labs(
     title = "Sale Price by Overall Quality",
     x = "Overall Quality (1 = Poor, 10 = Excellent)",
@@ -246,12 +221,12 @@ ggplot(ames_clean, aes(x = as.factor(OverallQual), y = SalePrice)) +
   )
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
 
 Insight: Quality is a key factor and interacts with both size and
 neighborhood for predictive modeling.
 
-Question 4: Are garages influential in pricing?
+#### Question 4: Are garages influential in pricing?
 
 Homes with more garage capacity tend to have higher prices, though this
 effect is smaller than living area or quality. Some homes without
@@ -260,13 +235,16 @@ quality) are strong.
 
 ``` r
 ggplot(ames_clean, aes(x = factor(GarageCars), y = SalePrice)) +
-  geom_boxplot(fill = "lightgreen") +
-  labs(title = "Sale Price by Garage Size",
-       x = "Garage Capacity (Cars)",
-       y = "Sale Price ($)")
+  geom_boxplot(fill = "red") +
+  scale_y_continuous(labels = dollar) +
+  labs(
+    title = "Sale Price by Garage Size",
+    x = "Garage Capacity (Cars)",
+    y = "Sale Price ($)"
+  )
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
 
 Observation: Garage size is moderately correlated with price, acting as
 a secondary factor.
